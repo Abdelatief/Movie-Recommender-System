@@ -8,10 +8,19 @@ from sys import stderr
 
 class Graphs:
     def __init__(self):
+
         self.ratings_data = pd.read_csv('ratings.csv')
        # print(self.ratings_data.head())
 
         self.movie_names = pd.read_csv('movies.csv')
+
+        self.ratings_data = pd.read_csv(r"ratings.csv")
+       # print(self.ratings_data.head())
+
+        self.movie_names = pd.read_csv(r"movies.csv")
+        # print(self.movie_names.head())
+        # print(self.movie_names.title.head())
+
 
 
         self.movie_data = pd.merge(self.ratings_data, self.movie_names, on='movieId')
