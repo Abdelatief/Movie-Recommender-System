@@ -34,6 +34,9 @@ class MainForm(QDialog):
         self.ui.piechart_show_button.clicked.connect(self.show_piechart)
         self.ui.dotplot_show_button.clicked.connect(self.show_dotplot)
         self.ui.hist_show_button.clicked.connect(self.show_hist)
+        self.ui.boxplot_show_button.clicked.connect(self.show_boxplot)
+        self.ui.mean_show_button.clicked.connect(self.show_mean)
+        self.ui.correlation_show_button.clicked.connect(self.show_correlation)
 
     def load_dataframe(self):
         pass
@@ -61,6 +64,24 @@ class MainForm(QDialog):
         if movie is not None:
             pass
             # Write here the code required to show histogram
+
+    def show_boxplot(self):
+        movie = self.get_movie_name()
+        if movie is not None:
+            pass
+            # Write here the code required to show boxplot
+
+    def show_mean(self):
+        movie = self.get_movie_name()
+        if movie is not None:
+            pass
+            # Write here the code required to show mean
+
+    def show_correlation(self):
+        movie = self.get_movie_name()
+        if movie is not None:
+            pass
+            # Write here the code required to show correlation
 
     def show_table(self, dataframe: pd.DataFrame):
         """This function takes a dataframe and show it in a table.. hopefully"""
