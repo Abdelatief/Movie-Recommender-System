@@ -8,10 +8,10 @@ from sys import stderr
 
 class Graphs:
     def __init__(self):
-        self.ratings_data = pd.read_csv(r"C:\Ziad's Mind Palace\testing\Movie-Recommender-System\ml-latest-small\\ratings.csv")
+        self.ratings_data = pd.read_csv(r"ratings.csv")
        # print(self.ratings_data.head())
 
-        self.movie_names = pd.read_csv(r"C:\Ziad's Mind Palace\testing\Movie-Recommender-System\ml-latest-small\\movies.csv")
+        self.movie_names = pd.read_csv(r"movies.csv")
         # print(self.movie_names.head())
         # print(self.movie_names.title.head())
 
