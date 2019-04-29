@@ -4,6 +4,7 @@ from mainwindow import *
 import sys
 from TableMod import *
 import pandas as pd
+from MovieRecommender import Graphs
 import matplotlib.pyplot as plt
 import seaborn as sns
 from pprint import pprint
@@ -30,12 +31,13 @@ class MainForm(QDialog):
         self.ui = Ui_mainwindow_dialog()
         self.ui.setupUi(self)
         self.show()
-        self.ui.barchar_show_button.clicked.connect(self.show_barchart)
-        self.ui.piechart_show_button.clicked.connect(self.show_piechart)
+        self.g = Graphs()
+        self.ui.barchar_show_button.clicked.connect(self.g.barchart)
+        self.ui.piechart_show_button.clicked.connect(self.g.piechart)
         self.ui.dotplot_show_button.clicked.connect(self.show_dotplot)
-        self.ui.hist_show_button.clicked.connect(self.show_hist)
+        self.ui.hist_show_button.clicked.connect(self.g.hist)
         self.ui.boxplot_show_button.clicked.connect(self.show_boxplot)
-        self.ui.mean_show_button.clicked.connect(self.show_mean)
+        self.ui.mean_show_button.clicked.connect(self.g.mean_table)
         self.ui.correlation_show_button.clicked.connect(self.show_correlation)
 
     def load_dataframe(self):
