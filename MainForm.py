@@ -9,9 +9,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from pprint import pprint
 from PyQt5.QtCore import QAbstractTableModel, Qt
-# Test TEST
-# te
-
+# movies_name_path =
 
 class MessageBox(QMessageBox):
     """A class to make showing messages easier"""
