@@ -25,7 +25,7 @@ class Graphs:
 
         self.movie_data = pd.merge(self.ratings_data, self.movie_names, on='movieId')
         self.ratings_mean_count = pd.DataFrame(self.movie_data.groupby('title')['rating'])
-        self.ratings_mean['rating_mean'] = pd.DataFrame(self.movie_data.groupby('title')['rating']).mean()
+        self.ratings_mean_count = pd.DataFrame(self.movie_data.groupby('title')['rating'].mean())
         self.ratings_mean_count['rating_counts'] = pd.DataFrame(self.movie_data.groupby('title')['rating'].count())
         sns.set_style('dark')
 
@@ -61,7 +61,7 @@ class Graphs:
 
     def mean_table(self):
         try:
-            self.table = Table(self.ratings_mean)
+            self.table = Table(self.ratings_mean_count)
             self.table.show()
         except IndexError:
             print(str(IndexError), file=stderr)
