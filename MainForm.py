@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QDialog, QApplication, QMessageBox, QTableView
-from pyuic5 import *
+# from pyuic5 import *
 from mainwindow import *
 import sys
 from TableMod import *
@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from pprint import pprint
 from PyQt5.QtCore import QAbstractTableModel, Qt
-# movies_name_path =
+
 
 class MessageBox(QMessageBox):
     """A class to make showing messages easier"""
@@ -36,9 +36,9 @@ class MainForm(QDialog):
         self.ui.piechart_show_button.clicked.connect(self.g.piechart)
         self.ui.dotplot_show_button.clicked.connect(self.show_dotplot)
         self.ui.hist_show_button.clicked.connect(self.g.hist)
-        self.ui.boxplot_show_button.clicked.connect(self.show_boxplot)
+        self.ui.boxplot_show_button.clicked.connect(self.g.boxplot)
         self.ui.mean_show_button.clicked.connect(self.g.mean_table)
-        self.ui.correlation_show_button.clicked.connect(self.show_correlation)
+        self.ui.correlation_show_button.clicked.connect(self.g.correlation_table)
 
     def load_dataframe(self):
         pass
@@ -110,7 +110,7 @@ class MainForm(QDialog):
 
 # This if condition makes this line of code run when this module runs from here as if it was imported it won't run
 if __name__ == '__main__':
-    convert_ui_to_py('mainwindow.ui')
+    # convert_ui_to_py('mainwindow.ui')
     app = QApplication(sys.argv)
     form = MainForm()
     # print(type(QMessageBox.Information))

@@ -7,13 +7,10 @@ from TableMod import *
 
 class Graphs:
     def __init__(self):
-        # self.ratings_data = pd.read_csv(r'E:\Python Projects\Movie Recomender System\ml-latest-small\\ratings.csv')
-        self.ratings_data = pd.read_csv(' ')
+        self.ratings_data = pd.read_csv(r"C:\Ziad's Mind Palace\testing\Movie-Recommender-System\ml-latest-small\\ratings.csv")
         print(self.ratings_data.head())
 
-        # self.movie_names = pd.read_csv(r'E:\Python Projects\Movie Recomender System\ml-latest-small\\movies.csv')
-        self.movie_names = pd.read_csv(' ')
-
+        self.movie_names = pd.read_csv(r"C:\Ziad's Mind Palace\testing\Movie-Recommender-System\ml-latest-small\\movies.csv")
         print(self.movie_names.head())
         print(self.movie_names.title.head())
 
@@ -74,6 +71,16 @@ class Graphs:
     def mean_table(self):
         table = Table(self.ratings_mean_count)
         table.show()
+    def correlation_table(self):
+        user_movie_rating = self.movie_data.pivot_table(index='userId', columns='title', values='rating')
+        forrest_gump_ratings = user_movie_rating['Forrest Gump (1994)']  # instead of forrest gumb  name of a variable
+        movies_like_forest_gump = user_movie_rating.corrwith(forrest_gump_ratings)
+        corr_forrest_gump = pd.DataFrame(movies_like_forest_gump, columns=['Correlation'])
+        corr_forrest_gump.dropna(inplace=True)
+        corr_forrest_gump = corr_forrest_gump.join(self.ratings_mean_count['rating_counts'])
+        print(corr_forrest_gump[corr_forrest_gump['rating_counts'] > 50].sort_values('Correlation', ascending=False).head())
+    # def boxplot(self):
+
 
 '''
         print(self.ratings_mean_count.head())
