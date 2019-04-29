@@ -4,36 +4,37 @@ from pprint import pprint
 import matplotlib.pyplot as plt
 import seaborn as sns
 from TableMod import *
+from sys import stderr
 
 class Graphs:
     def __init__(self):
         self.ratings_data = pd.read_csv(r"C:\Ziad's Mind Palace\testing\Movie-Recommender-System\ml-latest-small\\ratings.csv")
-        print(self.ratings_data.head())
+       # print(self.ratings_data.head())
 
         self.movie_names = pd.read_csv(r"C:\Ziad's Mind Palace\testing\Movie-Recommender-System\ml-latest-small\\movies.csv")
-        print(self.movie_names.head())
-        print(self.movie_names.title.head())
+        # print(self.movie_names.head())
+        # print(self.movie_names.title.head())
 
         self.movie_data = pd.merge(self.ratings_data, self.movie_names, on='movieId')
-        print(self.movie_data.head())
+        # print(self.movie_data.head())
 
         # table of the mean of the movies' ratings sorted
         #############################################################################################
-        self.movie_data.groupby('title')['rating'].mean().sort_values(ascending=False) # table for the mean of the movies
+        # self.movies_mean=self.movie_data.groupby('title')['rating'].mean().sort_values(ascending=False) # table for the mean of the movies
         self.ratings_mean_count = pd.DataFrame(self.movie_data.groupby('title')['rating'])
-        print(type(self.movie_data.groupby('title')['rating'].mean().sort_values(ascending=False)))
+        # print(type(self.movie_data.groupby('title')['rating'].mean().sort_values(ascending=False)))
         #############################################################################################
         # table of the count of the ratings sorted
         #############################################################################################
-        print(self.movie_data.groupby('title')['rating'].count().sort_values(ascending=False))  # table for the count of the ratings
+        # print(self.movie_data.groupby('title')['rating'].count().sort_values(ascending=False))  # table for the count of the ratings
         #############################################################################################
         self.ratings_mean_count = pd.DataFrame(self.movie_data.groupby('title')['rating'].mean())
         # table for the mean & count grouped by title
-        print(self.ratings_mean_count.head())
+        # print(self.ratings_mean_count.head())
 
         self.ratings_mean_count['rating_counts'] = pd.DataFrame(self.movie_data.groupby('title')['rating'].count())
 
-        print(self.ratings_mean_count['rating_counts'].head())
+        # print(self.ratings_mean_count['rating_counts'].head())
 
 
         sns.set_style('dark')
@@ -55,7 +56,7 @@ class Graphs:
         plt.figure(figsize=(5, 5))
         titles_list = list(self.ratings_mean_count.index.values)
         ratings_list = list(self.ratings_mean_count['rating'])
-        print('\n')
+        # print('\n')
         pprint(titles_list)
         pprint(ratings_list)
 
@@ -69,8 +70,11 @@ class Graphs:
         plt.show()
 
     def mean_table(self):
-        table = Table(self.ratings_mean_count)
-        table.show()
+        try:
+            self.table = Table(self.ratings_mean_count)
+            self.table.show()
+        except IndexError:
+            print(str(IndexError), file=stderr)
     def correlation_table(self):
         user_movie_rating = self.movie_data.pivot_table(index='userId', columns='title', values='rating')
         forrest_gump_ratings = user_movie_rating['Forrest Gump (1994)']  # instead of forrest gumb  name of a variable
@@ -79,7 +83,9 @@ class Graphs:
         corr_forrest_gump.dropna(inplace=True)
         corr_forrest_gump = corr_forrest_gump.join(self.ratings_mean_count['rating_counts'])
         print(corr_forrest_gump[corr_forrest_gump['rating_counts'] > 50].sort_values('Correlation', ascending=False).head())
-    # def boxplot(self):
+    def boxplot(self):
+        pass
+
 
 
 '''
