@@ -38,7 +38,7 @@ class MainForm(QDialog):
         self.ui.hist_show_button.clicked.connect(self.g.hist)
         self.ui.boxplot_show_button.clicked.connect(self.g.boxplot)
         self.ui.mean_show_button.clicked.connect(self.g.mean_table)
-        self.ui.correlation_show_button.clicked.connect(self.g.correlation_table)
+        self.ui.correlation_show_button.clicked.connect(self.show_correlation)
 
     def load_dataframe(self):
         pass
@@ -82,8 +82,7 @@ class MainForm(QDialog):
     def show_correlation(self):
         movie = self.get_movie_name()
         if movie is not None:
-            pass
-            # Write here the code required to show correlation
+            self.g.correlation_table(movie)
 
     def show_table(self, dataframe: pd.DataFrame):
         """This function takes a dataframe and show it in a table.. hopefully"""
