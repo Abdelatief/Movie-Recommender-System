@@ -73,7 +73,6 @@ class Graphs:
         except IndexError:
             print(str(IndexError), file=stderr)
 
-
     def correlation_table(self, movie):
         ''''
         self.user_movie_rating = self.movie_data.pivot_table(index='userId', columns='title', values='rating')
@@ -102,7 +101,6 @@ class Graphs:
         ax.set_xticklabels(self.ratings_merged.columns)
         ax.set_yticklabels(self.ratings_merged.columns)
         plt.show()
-
 
     def boxplot(self):
         self.ratings_head=self.ratings_mean_count.head(5)
