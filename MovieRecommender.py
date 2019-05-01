@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from TableMod import *
 from sys import stderr
+import seaborn as sns
 
 
 class Graphs:
@@ -69,22 +70,27 @@ class Graphs:
 
     def correlation_table(self, movie_name):
 
-        user_movie_rating = self.movie_data.pivot_table(index='userId', columns='title', values='rating')
-        forrest_gump_ratings = user_movie_rating[movie_name]  # instead of forrest gumb  name of a variable
-        movies_like_forest_gump = user_movie_rating.corrwith(forrest_gump_ratings)
-        corr_forrest_gump = pd.DataFrame(movies_like_forest_gump, columns=['Correlation'])
-        print(corr_forrest_gump)
-        corr_forrest_gump.dropna(inplace=True)
-        corr_forrest_gump = corr_forrest_gump.join(self.ratings_mean_count['rating_counts'])
+
+        self.user_movie_rating = self.movie_data.pivot_table(index='userId', columns='title', values='rating')
+        self.forrest_gump_ratings = self.user_movie_rating[movie_name]
+        self.movies_like_forest_gump = self.user_movie_rating.corrwith(self.forrest_gump_ratings)
+        self.corr_forrest_gump = pd.DataFrame(self.movies_like_forest_gump, columns=['Correlation'])
+
+        self.corr_forrest_gump.dropna(inplace=True)
+        self.corr_forrest_gump = self.corr_forrest_gump.join(self.ratings_mean_count['rating_counts'])
         # print(corr_forrest_gump[corr_forrest_gump['rating_counts'] > 50].sort_values('Correlation', ascending=False).head())
-        correlation_df = corr_forrest_gump[corr_forrest_gump['rating_counts'] > 50].sort_values('Correlation', ascending=False).head()
+        self.correlation_df = self.corr_forrest_gump[self.corr_forrest_gump['rating_counts'] > 50].sort_values('Correlation', ascending=False).head()
         # print(correlation_df)
-        table = Table(correlation_df)
-        table.show()
-        return table
+        self.table = Table(self.correlation_df)
+        self.table.show()
+
+
 
     def boxplot(self):
-        pass
+        self.ratings_mean_count.boxplot(grid=False)
+
+        # bplot=sns.boxplot(data=self.ratings_mean_count,width=.5,palette="colorblind")
+
 
 
 
@@ -104,3 +110,4 @@ if __name__ == '__main__':
     g = Graphs()
     # g.hist()
     g.mean_table()
+    g.correlation_table()
