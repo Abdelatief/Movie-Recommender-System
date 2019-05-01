@@ -38,7 +38,10 @@ class MainForm(QDialog):
         self.ui.hist_show_button.clicked.connect(self.g.hist)
         self.ui.boxplot_show_button.clicked.connect(self.g.boxplot)
         self.ui.mean_show_button.clicked.connect(self.g.mean_table)
-        self.ui.correlation_show_button.clicked.connect(self.show_correlation)
+        ####################################################################################
+        self.ui.correlation_show_button.clicked.connect(self.g.correlation_table(self.movie))
+        # here we need the correlation table to take the name of the movie and pass it to the function in
+        # class graphs to show a multidimensional matrix of the movies and the actual movie we are working on
 
     def load_dataframe(self):
         pass
@@ -79,9 +82,9 @@ class MainForm(QDialog):
             pass
             # Write here the code required to show mean
 
-    def show_correlation(self):
-        movie = self.get_movie_name()
-        if movie is not None:
+    def show_correlation(self, movie):
+       self.movie = self.get_movie_name()
+       if movie is not None:
             self.g.correlation_table(movie)
 
     def show_table(self, dataframe: pd.DataFrame):
