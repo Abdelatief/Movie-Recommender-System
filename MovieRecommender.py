@@ -6,6 +6,7 @@ import seaborn as sns
 from TableMod import *
 from sys import stderr
 import seaborn as sns
+from matplotlib import cm as cm
 
 
 class Graphs:
@@ -74,20 +75,38 @@ class Graphs:
             print(str(IndexError), file=stderr)
 
     def correlation_table(self, movie):
-        ''''
-        self.user_movie_rating = self.movie_data.pivot_table(index='userId', columns='title', values='rating')
-        self.movie_ratings = self.user_movie_rating[movie_name]
-        self.movies_like_the_movie = self.user_movie_rating.corrwith(self.movie_ratings)
-        self.corr_movie = pd.DataFrame(self.movies_like_the_movie, columns=['Correlation'])
-        self.corr_movie.dropna(inplace=True)
-        self.corr_movie = self.corr_movie.join(self.ratings_mean_count['rating_counts'])
-        self.correlation_df = self.corr_movie[self.corr_movie['rating_counts'] > 100].sort_values('Correlation', ascending=False)
+        data = pd.read_csv('ratings.csv')
+        data2 = pd.read_csv('movies.csv')
+        data3 = pd.merge(data, data2, on='movieId')
+
+        plt.figure(figsize=(20, 20))
+        # play with the figsize until the plot is big enough to plot all the columns
+        # of your dataset, or the way you desire it to look like otherwise
+
+        sns.heatmap(data3.corr())
         plt.show()
+        '''
+        self.data_rating = pd.read_csv('ratings.csv')
+        self.data_movie = pd.read_csv('movies.csv')
+        self.df = pd.merge(self.data_movie, self.data_rating, on='movieId')
+        fig = plt.figure()
+        ax1 = fig.add_subplot(111)
+        cmap = cm.get_cmap('jet', 30)
+        cax = ax1.imshow(self.df.corr(), interpolation="nearest", cmap=cmap)
+        ax1.grid(True)
+        plt.title('Movie Correlation')
+        labels = ['Sex', 'Length', 'Diam', 'Height', 'Whole', 'Shucked', 'Viscera', 'Shell', 'Rings', ]
+        ax1.set_xticklabels(labels, fontsize=6)
+        ax1.set_yticklabels(labels, fontsize=6)
+        # Add colorbar, make sure to specify tick locations to match desired ticklabels
+        fig.colorbar(cax, ticks=[.75, .8, .85, .90, .95, 1])
+        plt.show()
+        '''
         '''
         self.data_rating = pd.read_csv('ratings.csv', index_col=0)
         self.data_movie = pd.read_csv('movies.csv', index_col=0)
         self.merged_data = pd.merge(self.data_movie, self.data_rating, on='movieId')
-        self.ratings_merged = pd.DataFrame(self.merged_data.groupby(movie)['rating'])
+        self.ratings_merged = pd.DataFrame(self.merged_data.groupby('genres')['rating'])
         print(self.ratings_merged)
         corr = self.ratings_merged.corr()
         fig = plt.figure()
@@ -100,8 +119,9 @@ class Graphs:
         ax.set_yticks(ticks)
         ax.set_xticklabels(self.ratings_merged.columns)
         ax.set_yticklabels(self.ratings_merged.columns)
-        plt.show()
 
+        plt.show()
+        '''
     def boxplot(self):
         self.ratings_head=self.ratings_mean_count.head(5)
         self.ratings_head.boxplot(by='rating', column=['rating_counts'], grid=False)
