@@ -24,7 +24,7 @@ class Graphs:
         # print(self.movie_names.title.head())
 
         self.movie_data = pd.merge(self.ratings_data, self.movie_names, on='movieId')
-        self.ratings_mean_count = pd.DataFrame(self.movie_data.groupby('title')['rating'])
+        self.ratings = pd.DataFrame(self.movie_data.groupby('title')['rating'])
         self.ratings_mean_count = pd.DataFrame(self.movie_data.groupby('title')['rating'].mean())
         self.ratings_mean_count['rating_counts'] = pd.DataFrame(self.movie_data.groupby('title')['rating'].count())
         sns.set_style('dark')
@@ -69,25 +69,22 @@ class Graphs:
             print(str(IndexError), file=stderr)
 
     def correlation_table(self, movie_name):
-
-
         self.user_movie_rating = self.movie_data.pivot_table(index='userId', columns='title', values='rating')
-        self.forrest_gump_ratings = self.user_movie_rating[movie_name]
-        self.movies_like_forest_gump = self.user_movie_rating.corrwith(self.forrest_gump_ratings)
-        self.corr_forrest_gump = pd.DataFrame(self.movies_like_forest_gump, columns=['Correlation'])
-
-        self.corr_forrest_gump.dropna(inplace=True)
-        self.corr_forrest_gump = self.corr_forrest_gump.join(self.ratings_mean_count['rating_counts'])
-        # print(corr_forrest_gump[corr_forrest_gump['rating_counts'] > 50].sort_values('Correlation', ascending=False).head())
-        self.correlation_df = self.corr_forrest_gump[self.corr_forrest_gump['rating_counts'] > 50].sort_values('Correlation', ascending=False).head()
-        # print(correlation_df)
+        self.movie_ratings = self.user_movie_rating[movie_name]
+        self.movies_like_the_movie = self.user_movie_rating.corrwith(self.movie_ratings)
+        self.corr_movie = pd.DataFrame(self.movies_like_the_movie, columns=['Correlation'])
+        self.corr_movie.dropna(inplace=True)
+        self.corr_movie = self.corr_movie.join(self.ratings_mean_count['rating_counts'])
+        self.correlation_df = self.corr_movie[self.corr_movie['rating_counts'] > 100].sort_values('Correlation', ascending=False)
         self.table = Table(self.correlation_df)
         self.table.show()
 
 
 
     def boxplot(self):
-        self.ratings_mean_count.boxplot(by='rating', grid=False)
+        self.ratings_head=self.ratings_mean_count.head(5)
+        self.ratings_head.boxplot(by='rating',column=['rating_counts'], grid=False)
+        plt.show()
 
         # bplot=sns.boxplot(data=self.ratings_mean_count,width=.5,palette="colorblind")
 
