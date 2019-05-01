@@ -87,7 +87,7 @@ class Graphs:
 
 
     def boxplot(self):
-        self.ratings_mean_count.boxplot(grid=False)
+        self.ratings_mean_count.boxplot(by='rating', grid=False)
 
         # bplot=sns.boxplot(data=self.ratings_mean_count,width=.5,palette="colorblind")
 
