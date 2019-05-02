@@ -12,19 +12,18 @@ from matplotlib import cm as cm
 class Graphs:
     def __init__(self):
 
-        self.ratings_data = pd.read_csv('ratings.csv')
+        self.ratings_data = pd.read_csv('ratings.csv', index_col=3)
        # print(self.ratings_data.head())
 
-        self.movie_names = pd.read_csv('movies.csv')
+        self.movie_names = pd.read_csv('movies.csv', index_col=2)
 
-        self.ratings_data = pd.read_csv(r"ratings.csv")
+        # self.ratings_data = pd.read_csv(r"ratings.csv")
        # print(self.ratings_data.head())
 
-        self.movie_names = pd.read_csv(r"movies.csv")
+        # self.movie_names = pd.read_csv(r"movies.csv")
         # print(self.movie_names.head())
         # print(self.movie_names.title.head())
-
-        self.movie_data = pd.merge(self.ratings_data, self.movie_names, on='movieId')
+        self.movie_data = pd.merge(self.ratings_data, self.movie_names, left_on='rating', right_on='title')
         self.ratings = pd.DataFrame(self.movie_data.groupby('title')['rating'])
         self.ratings_mean_count = pd.DataFrame(self.movie_data.groupby('title')['rating'].mean())
         self.ratings_mean_count['rating_counts'] = pd.DataFrame(self.movie_data.groupby('title')['rating'].count())
@@ -56,7 +55,6 @@ class Graphs:
         # print('\n')
         pprint(titles_list)
         pprint(ratings_list)
-
         plt.pie(ratings_list[0:5], labels=titles_list[0:5], autopct="%.1f%%")
         plt.show()
         ############################################################################################
@@ -75,15 +73,8 @@ class Graphs:
             print(str(IndexError), file=stderr)
 
     def correlation_table(self, movie):
-        data = pd.read_csv('ratings.csv')
-        data2 = pd.read_csv('movies.csv')
-        data3 = pd.merge(data, data2, on='movieId')
-
-        plt.figure(figsize=(20, 20))
-        # play with the figsize until the plot is big enough to plot all the columns
-        # of your dataset, or the way you desire it to look like otherwise
-
-        sns.heatmap(data3.corr())
+        plt.figure(figsize=(5, 5))
+        sns.heatmap(self.movie_names.corr())
         plt.show()
         '''
         self.data_rating = pd.read_csv('ratings.csv')
@@ -123,8 +114,8 @@ class Graphs:
         plt.show()
         '''
     def boxplot(self):
-        self.ratings_head=self.ratings_mean_count.head(5)
-        self.ratings_head.boxplot(by='rating', column=['rating_counts'], grid=False)
+        self.ratings_head=self.ratings_mean_count.head(10)
+        self.ratings_head.boxplot(by='rating_counts', column=['rating'], grid=False, )
         plt.show()
 
         # bplot=sns.boxplot(data=self.ratings_mean_count,width=.5,palette="colorblind")
